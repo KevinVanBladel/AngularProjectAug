@@ -1,1 +1,13 @@
-<p>training works!</p>
+<ng-container *ngIf="(training$ | async) as training; else loading">
+
+    <h1>{{ training.naam }}</h1>
+    <ul>
+      <li>{{ training.naam }}</li>
+      <li>{{ training.locatie }}</li>
+      <li>{{ training.hoeveelheid }}</li>
+      <li>{{ training.gebruikerId }}</li>
+      <li>{{ training.activiteitId }}</li>
+    </ul>
+  
+  </ng-container>
+  <ng-template #loading>Loading…</ng-template>

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,7 @@ import { trainingService } from './services/training.service';
 import { activiteitService } from './services/activiteit.service';
 import { gebruikerService } from './services/gebruiker.service';
 import { wedstrijdService } from './services/wedstrijd.service';
-
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,12 +24,14 @@ import { wedstrijdService } from './services/wedstrijd.service';
     TrainingEditComponent,
     AccountComponent,
     AccountsComponent,
-    AccountEditComponent
+    AccountEditComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     trainingService,

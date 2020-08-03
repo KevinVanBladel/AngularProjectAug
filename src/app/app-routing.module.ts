@@ -6,16 +6,19 @@ import { AccountComponent } from './account/account.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { AccountEditComponent } from './account-edit/account-edit.component';
 import { TrainingenComponent } from './trainingen/trainingen.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: "/training", pathMatch: 'full' },
+  { path: '', redirectTo: "/home", pathMatch: 'full' },
+  { path: 'home', component: HomeComponent},
   { path: 'training', component: TrainingComponent},
   { path: 'trainingen', component: TrainingenComponent },
-  { path: 'training/:id', component: TrainingEditComponent },
+  { path: 'add', component: TrainingEditComponent },
+  { path: 'training/edit/:id', component: TrainingEditComponent },
   { path: 'account', component: AccountComponent },
   { path: 'accounts', component: AccountsComponent },
   { path: 'accounts/:id', component: AccountEditComponent},
-  { path: '**', redirectTo: 'training' } //invalid path goes to training
+  { path: '**', redirectTo: 'home' } //invalid path goes to home
 ];
 
 @NgModule({

@@ -2,7 +2,7 @@
 
 <p *ngIf="!(trainingen$ | async)"><em>Loading...</em></p>
 <p>
-  <a [routerLink]="['training/:id']" class="btn btn-primary float-right mb-3">Nieuwe training</a>
+  <a [routerLink]="['/add']" class="btn btn-primary float-right mb-3">Nieuwe training</a>
 </p>
 
 <table class="table table-sm table-hover" *ngIf="(trainingen$ | async)?.length>0">
@@ -10,20 +10,24 @@
     <tr>
       <th>#</th>
       <th>Naam</th>
-      <th>Date</th>
-      <th>Eenheid</th>
+      <th>Locatie</th>
+      <th>Hoeveelheid</th>
+      <th>Trainer</th>
+      <th>Activiteit</th>
       <th></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let trainingen of (trainingen$ | async)">
-      <td>{{ trainingen.id }}</td>
-      <td>{{ trainingen.Naam }}</td>
-      <td>{{ trainingen.Date | date: "dd.MM.yyyy" }}</td>
-      <td>{{ trainingen.Eenheid }}</td>
-      <td><a [routerLink]="['/trainingen/edit/', trainingen.id]" class="btn btn-primary btn-sm float-right">Edit</a></td>
-      <td><a [routerLink]="" (click)="delete(trainingen.id)" class="btn btn-danger btn-sm float-right">Delete</a></td>
+    <tr *ngFor="let training of (trainingen$ | async)">
+      <td>{{ training.id }}</td>
+      <td>{{ training.naam }}</td>
+      <td>{{ training.locatie }}</td>
+      <td>{{ training.hoeveelheid }}</td>
+      <th>{{ training.gebruikerId }}</th>
+      <th>{{ training.activiteitId }}</th>
+      <td><a [routerLink]="['/training/edit/', training.id]" class="btn btn-primary btn-sm float-right">Edit</a></td>
+      <td><a [routerLink]="" (click)="delete(training.id)" class="btn btn-danger btn-sm float-right">Delete</a></td>
     </tr>
   </tbody>
 </table>

@@ -18,10 +18,9 @@ export class trainingService {
     })
   };
   constructor(private http: HttpClient) {
-      this.myAppUrl = environment.appUrl;
-      this.myApiUrl = 'api/training/';
+      this.myAppUrl = 'http://localhost:5000'; //port waarop api draait
+      this.myApiUrl = '/api/training/' ;
   }
-
   gettrainings(): Observable<Training[]> {
     return this.http.get<Training[]>(this.myAppUrl + this.myApiUrl)
     .pipe(

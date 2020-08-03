@@ -11,7 +11,7 @@ import { Training } from '../models/training';
 export class TrainingenComponent implements OnInit {
  trainingen$: Observable<Training[]>;
 
-  constructor(private trainingService: trainingService) {
+  constructor(private trainingService: trainingService ) {
   }
 
   ngOnInit() {
