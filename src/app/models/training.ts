@@ -3,6 +3,5 @@ export class Training {
     naam: string;
     Locatie: string;
     Hoeveelheid: number;
-    GebruikerId: string;
     ActiviteitId: number;
   }

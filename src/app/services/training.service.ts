@@ -14,15 +14,17 @@ export class trainingService {
   myApiUrl: string;
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8'
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + localStorage.getItem("currentUser")
     })
   };
   constructor(private http: HttpClient) {
       this.myAppUrl = 'http://localhost:5000'; //port waarop api draait
       this.myApiUrl = '/api/training/' ;
   }
+  
   gettrainings(): Observable<Training[]> {
-    return this.http.get<Training[]>(this.myAppUrl + this.myApiUrl)
+    return this.http.get<Training[]>(this.myAppUrl + this.myApiUrl, this.httpOptions)
     .pipe(
       retry(1),
       catchError(this.errorHandler)

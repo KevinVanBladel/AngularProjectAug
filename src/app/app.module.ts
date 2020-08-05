@@ -16,6 +16,7 @@ import { activiteitService } from './services/activiteit.service';
 import { gebruikerService } from './services/gebruiker.service';
 import { wedstrijdService } from './services/wedstrijd.service';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +26,8 @@ import { HomeComponent } from './home/home.component';
     AccountComponent,
     AccountsComponent,
     AccountEditComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

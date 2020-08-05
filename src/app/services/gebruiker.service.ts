@@ -1,66 +1,47 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Gebruiker } from '../models/gebruiker';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class gebruikerService {
-
+  private currentUserSubject: BehaviorSubject<Gebruiker>;
+  public currentUser: Observable<Gebruiker>;
   myAppUrl: string;
   myApiUrl: string;
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8'
-    })
-  };
+  
   constructor(private http: HttpClient) {
-      this.myAppUrl = environment.appUrl;
-      this.myApiUrl = 'api/gebruikers/';
+    this.currentUserSubject = new BehaviorSubject<Gebruiker>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();  
+    this.myAppUrl = "http://localhost:5000/";
+    this.myApiUrl = 'api/gebruiker/';
   }
 
-  getgebruikers(): Observable<Gebruiker[]> {
-    return this.http.get<Gebruiker[]>(this.myAppUrl + this.myApiUrl)
-    .pipe(
-      retry(1),
-      catchError(this.errorHandler)
-    );
+  public get currentUserValue(): Gebruiker{
+    return this.currentUserSubject.value;
   }
 
-  getgebruiker(id: string): Observable<Gebruiker> {
-      return this.http.get<Gebruiker>(this.myAppUrl + this.myApiUrl + id)
-      .pipe(
-        retry(1),
-        catchError(this.errorHandler)
-      );
+  login(username, password) {
+    return this.http.post<any>(this.myAppUrl+this.myApiUrl+"login", { UserName : username, Password : password })
+            .pipe(map(user => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('currentUser', user.token);
+                this.currentUserSubject.next(user);
+                return user;
+            }));
   }
 
-  savegebruiker(gebruiker): Observable<Gebruiker> {
-      return this.http.post<Gebruiker>(this.myAppUrl + this.myApiUrl, JSON.stringify(gebruiker), this.httpOptions)
-      .pipe(
-        retry(1),
-        catchError(this.errorHandler)
-      );
-  }
-
-  updategebruiker(id: string, gebruiker): Observable<Gebruiker> {
-      return this.http.put<Gebruiker>(this.myAppUrl + this.myApiUrl + id, JSON.stringify(gebruiker), this.httpOptions)
-      .pipe(
-        retry(1),
-        catchError(this.errorHandler)
-      );
-  }
-
-  deletegebruiker(id: string): Observable<Gebruiker> {
-      return this.http.delete<Gebruiker>(this.myAppUrl + this.myApiUrl + id)
-      .pipe(
-        retry(1),
-        catchError(this.errorHandler)
-      );
-  }
+  logout() {
+    // remove user from local storage and set current user to null
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+}
 
   errorHandler(error) {
     let errorMessage = '';

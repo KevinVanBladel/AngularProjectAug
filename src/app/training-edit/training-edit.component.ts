@@ -17,7 +17,6 @@ export class TrainingEditComponent implements OnInit {
   formLocatie: string;
   formHoeveelheid: number;
   formActiviteitId: number;
-  formGebruikerId: string;
   id: number;
   errorMessage: any;
   existingTraining: Training;
@@ -30,8 +29,7 @@ export class TrainingEditComponent implements OnInit {
         Naam: ['', [Validators.required]],
         Locatie: ['', [Validators.required]],
         Hoeveelheid: ['', [Validators.required]],
-        ActiviteitId: ['', [Validators.required]],
-        GebruikerId: ['', [Validators.nullValidator]]
+        ActiviteitId: ['', [Validators.required]]
       }
     )
   }
@@ -46,8 +44,7 @@ export class TrainingEditComponent implements OnInit {
           this.Trainingform.controls[this.formNaam].setValue(data.naam),
           this.Trainingform.controls[this.formLocatie].setValue(data.Locatie),
           this.Trainingform.controls[this.formHoeveelheid].setValue(data.Hoeveelheid),
-          this.Trainingform.controls[this.formActiviteitId].setValue(data.ActiviteitId),
-          this.Trainingform.controls[this.formGebruikerId].setValue(data.GebruikerId)
+          this.Trainingform.controls[this.formActiviteitId].setValue(data.ActiviteitId)
         ));
     }
   }
@@ -63,9 +60,6 @@ export class TrainingEditComponent implements OnInit {
         Locatie: this.Trainingform.get(this.formLocatie).value,
         Hoeveelheid: this.Trainingform.get(this.formHoeveelheid.toString()).value,
         ActiviteitId:this.Trainingform.get(this.formActiviteitId.toString()).value,
-        GebruikerId:this.Trainingform.get(this.formGebruikerId).value
-
-
       };
 
       this.trainingService.savetraining(training)
@@ -81,7 +75,6 @@ export class TrainingEditComponent implements OnInit {
         Locatie: this.existingTraining.Locatie,
         Hoeveelheid: this.Trainingform.get(this.formHoeveelheid.toString()).value,
         ActiviteitId: this.existingTraining.ActiviteitId,
-        GebruikerId: this.existingTraining.GebruikerId
       };
       this.trainingService.updatetraining(training.id, training)
         .subscribe((data) => {
@@ -98,5 +91,4 @@ export class TrainingEditComponent implements OnInit {
   get Locatie() { return this.Trainingform.get(this.formLocatie); }
   get Hoeveelheid() {return this.Trainingform.get(this.formHoeveelheid.toString())}
   get ActiviteitId() {return this.Trainingform.get(this.formActiviteitId.toString())}
-  get GebruikerId() {return this.Trainingform.get(this.formGebruikerId)}
 }

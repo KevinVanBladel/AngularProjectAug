@@ -7,6 +7,7 @@ import { AccountsComponent } from './accounts/accounts.component';
 import { AccountEditComponent } from './account-edit/account-edit.component';
 import { TrainingenComponent } from './trainingen/trainingen.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: "/home", pathMatch: 'full' },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'training/edit/:id', component: TrainingEditComponent },
   { path: 'account', component: AccountComponent },
   { path: 'accounts', component: AccountsComponent },
-  { path: 'accounts/:id', component: AccountEditComponent},
+  { path: 'accounts/:id', component: AccountEditComponent },
+  { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'home' } //invalid path goes to home
 ];
 
