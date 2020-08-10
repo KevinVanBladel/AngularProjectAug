@@ -32,7 +32,7 @@ export class trainingService {
   }
 
   gettraining(id: number): Observable<Training> {
-      return this.http.get<Training>(this.myAppUrl + this.myApiUrl + id)
+      return this.http.get<Training>(this.myAppUrl + this.myApiUrl + id, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.errorHandler)

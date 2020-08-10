@@ -19,7 +19,7 @@ export class activiteitService {
   };
   constructor(private http: HttpClient) {
       this.myAppUrl = environment.appUrl;
-      this.myApiUrl = 'api/activiteits/';
+      this.myApiUrl = 'api/activiteit/';
   }
 
   getactiviteits(): Observable<Activiteit[]> {

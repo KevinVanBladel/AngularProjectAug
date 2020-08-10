@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +18,7 @@ import { gebruikerService } from './services/gebruiker.service';
 import { wedstrijdService } from './services/wedstrijd.service';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { MenuComponent } from './menu/menu.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,9 +29,11 @@ import { LoginComponent } from './login/login.component';
     AccountsComponent,
     AccountEditComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    MenuComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

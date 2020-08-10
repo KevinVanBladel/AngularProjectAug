@@ -5,6 +5,8 @@ import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Gebruiker } from '../models/gebruiker';
 import { map } from 'rxjs/operators';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { ThrowStmt } from '@angular/compiler';
 
 
 @Injectable({
@@ -13,12 +15,13 @@ import { map } from 'rxjs/operators';
 export class gebruikerService {
   private currentUserSubject: BehaviorSubject<Gebruiker>;
   public currentUser: Observable<Gebruiker>;
+  private logincheck: string;
   myAppUrl: string;
   myApiUrl: string;
   
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<Gebruiker>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();  
+    this.currentUserSubject = new BehaviorSubject<Gebruiker>(JSON.parse(localStorage.getItem(localStorage.key(1))))
+    this.currentUser = this.currentUserSubject.asObservable();
     this.myAppUrl = "http://localhost:5000/";
     this.myApiUrl = 'api/gebruiker/';
   }
@@ -28,7 +31,7 @@ export class gebruikerService {
   }
 
   login(username, password) {
-    return this.http.post<any>(this.myAppUrl+this.myApiUrl+"login", { UserName : username, Password : password })
+    return this.http.post<Gebruiker>(this.myAppUrl+this.myApiUrl+"login", { UserName : username, Password : password })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', user.token);
@@ -36,11 +39,21 @@ export class gebruikerService {
                 return user;
             }));
   }
+ isLoggedIn() {
+   this.logincheck = localStorage.getItem("currentUser");
+   if(this.logincheck != null){
+
+     return true;
+   }
+   else{
+     return false;
+   }
+   
+  }
 
   logout() {
-    // remove user from local storage and set current user to null
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+    this.currentUserSubject.next(null); 
 }
 
   errorHandler(error) {
@@ -55,4 +68,5 @@ export class gebruikerService {
     console.log(errorMessage);
     return throwError(errorMessage);
   }
+
 }

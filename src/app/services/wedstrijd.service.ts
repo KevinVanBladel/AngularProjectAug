@@ -19,7 +19,7 @@ export class wedstrijdService {
   };
   constructor(private http: HttpClient) {
       this.myAppUrl = environment.appUrl;
-      this.myApiUrl = 'api/wedstrijds/';
+      this.myApiUrl = 'api/wedstrijd/';
   }
 
   getwedstrijds(): Observable<Wedstrijd[]> {

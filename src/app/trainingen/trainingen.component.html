@@ -1,6 +1,6 @@
 <h1>Trainingen</h1>
-<p *ngIf="!(trainingen$ | async)"><em>Loading...</em></p>
-<p>
+<p *ngIf="!(trainingen$ | async)"><em>U moet ingelogd zijn om uw trainingen te kunnen zien.</em></p>
+<p *ngIf="(trainingen$ | async)">
   <a [routerLink]="['/add']" class="btn btn-primary float-right mb-3">Nieuwe training</a>
 </p>
 
@@ -11,7 +11,6 @@
       <th>Naam</th>
       <th>Locatie</th>
       <th>Hoeveelheid</th>
-      <th>Trainer</th>
       <th>Activiteit</th>
       <th></th>
       <th></th>
@@ -23,8 +22,11 @@
       <td>{{ training.naam }}</td>
       <td>{{ training.locatie }}</td>
       <td>{{ training.hoeveelheid }}</td>
-      <th>{{ training.gebruikerId }}</th>
-      <th>{{ training.activiteitId }}</th>
+      <ng-container *ngFor="let activiteit of (activiteiten$ | async)">
+        <ng-container *ngIf="training.activiteitId === activiteit.id ">
+        <td>{{ activiteit.naam }}</td>
+        </ng-container>
+      </ng-container>
       <td><a [routerLink]="['/training/edit/', training.id]" class="btn btn-primary btn-sm float-right">Edit</a></td>
       <td><a [routerLink]="" (click)="delete(training.id)" class="btn btn-danger btn-sm float-right">Delete</a></td>
     </tr>

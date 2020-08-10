@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { trainingService } from '../services/training.service';
+import { activiteitService } from '../services/activiteit.service';
 import { Training } from '../models/training';
 import { Identifiers } from '@angular/compiler';
+import { Activiteit } from '../models/activiteit';
 
 @Component({
   selector: 'app-training-edit',
@@ -17,11 +19,12 @@ export class TrainingEditComponent implements OnInit {
   formLocatie: string;
   formHoeveelheid: number;
   formActiviteitId: number;
+  Activiteiten: any;
   id: number;
   errorMessage: any;
   existingTraining: Training;
 
-  constructor(private trainingService: trainingService, private formBuilder: FormBuilder, private avRoute: ActivatedRoute, private router: Router) {
+  constructor(private trainingService: trainingService, private activiteitService: activiteitService, private formBuilder: FormBuilder, private avRoute: ActivatedRoute, private router: Router) {
 
     this.Trainingform = this.formBuilder.group(
       {
@@ -47,6 +50,7 @@ export class TrainingEditComponent implements OnInit {
           this.Trainingform.controls[this.formActiviteitId].setValue(data.ActiviteitId)
         ));
     }
+    this.Activiteiten = this.activiteitService.getactiviteits()
   }
 
   save() {
@@ -84,7 +88,7 @@ export class TrainingEditComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/trainingen']);
   }
 
   get Naam() { return this.Trainingform.get(this.formNaam); }
