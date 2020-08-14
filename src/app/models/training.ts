@@ -1,7 +1,7 @@
 export class Training {
     id?: number;
     naam: string;
-    Locatie: string;
-    Hoeveelheid: number;
-    ActiviteitId: number;
+    locatie: string;
+    hoeveelheid: number;
+    activiteitId: number;
   }

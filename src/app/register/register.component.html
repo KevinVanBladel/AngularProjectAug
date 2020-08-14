@@ -1,0 +1,32 @@
+<form [formGroup]="Registerform" #myform="ngForm" (ngSubmit)="onSubmit()" #frm="ngForm" novalidate>
+    <div class="form-group row">
+        <label class=" control-label col-md-12 " for="Firstname">Voornaam</label>
+        <div class="col-md-12">
+          <input class="form-control" type="text" formControlName="Firstname">
+        </div>
+      </div>
+    <div class="form-group row">
+        <label class=" control-label col-md-12 " for="Lastname">Achternaam</label>
+        <div class="col-md-12">
+          <input class="form-control" type="text" formControlName="Lastname">
+        </div>
+      </div>
+    <div class="form-group row">
+      <label class=" control-label col-md-12 " for="Username">Gebruikernaam</label>
+      <div class="col-md-12">
+        <input class="form-control" type="text" formControlName="Username">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="control-label col-md-12" for="Password">Paswoord</label>
+      <div class="col-md-12">
+          <input class="form-control" type="password" formControlName="Password">
+      </div>
+      <span class="text-danger ml-3" *ngIf="f.Password.invalid">
+        Uw passwoord moet minimaal 8 tekens lang zijn.
+       </span>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success float-right" value="onSubmit">Registeer</button>
+      </div>
+  </form>

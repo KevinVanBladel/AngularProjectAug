@@ -13,15 +13,15 @@ export class LoginComponent implements OnInit {
   Username = new FormControl('')
   Password = new FormControl('')
   Loginform: FormGroup;
-  formEmail: string;
+  formUsername: string;
   formPassword: string;
   returnUrl: string;
   constructor(private gebruikerService: gebruikerService, private formBuilder: FormBuilder, private avRoute: ActivatedRoute, private router: Router) {
     this.returnUrl = this.avRoute.snapshot.queryParams['returnUrl'] || '/';
     this.Loginform = this.formBuilder.group(
       {
-        Email: ['', [Validators.required]],
-        Password: ['', [Validators.required]],
+        Username: ['', [Validators.required]],
+        Password: ['', [Validators.required]]
       }
     )
   }

@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { trainingService } from '../services/training.service';
-import { activiteitService } from '../services/activiteit.service';
 import { Training } from '../models/training';
-import { Identifiers } from '@angular/compiler';
-import { Activiteit } from '../models/activiteit';
+import { Gebruiker } from '../models/gebruiker';
+import { gebruikerService} from '../services/gebruiker.service';
 
 @Component({
   selector: 'app-training-edit',
@@ -17,73 +16,72 @@ export class TrainingEditComponent implements OnInit {
   actionType: string;
   formNaam: string;
   formLocatie: string;
-  formHoeveelheid: number;
-  formActiviteitId: number;
-  Activiteiten: any;
+  formHoeveelheid: string;
+  formActiviteitId: string;
+  gebruiker = Gebruiker;
   id: number;
   errorMessage: any;
   existingTraining: Training;
 
-  constructor(private trainingService: trainingService, private activiteitService: activiteitService, private formBuilder: FormBuilder, private avRoute: ActivatedRoute, private router: Router) {
+  constructor(private trainingService: trainingService, private gebruikerService: gebruikerService, private formBuilder: FormBuilder, private avRoute: ActivatedRoute, private router: Router) {
+    const idParam = 'id';
+    this.actionType ='Add';
+    this.formNaam ='Naam';
+    this.formLocatie = 'Locatie';
+    this.formHoeveelheid = 'Hoeveelheid';
+    this.formActiviteitId = 'ActiviteitId';
 
     this.Trainingform = this.formBuilder.group(
       {
-        id: ['', [Validators.required]],
         Naam: ['', [Validators.required]],
         Locatie: ['', [Validators.required]],
-        Hoeveelheid: ['', [Validators.required]],
+        Hoeveelheid: [, [Validators.required]],
         ActiviteitId: ['', [Validators.required]]
       }
     )
+    if (this.avRoute.snapshot.params[idParam]) {
+      this.id = this.avRoute.snapshot.params[idParam];
+    }
   }
 
   ngOnInit() {
-
     if (this.id > 0) {
-      this.actionType = 'Edit';
+      this.actionType ='Edit';
       this.trainingService.gettraining(this.id)
         .subscribe(data => (
           this.existingTraining = data,
           this.Trainingform.controls[this.formNaam].setValue(data.naam),
-          this.Trainingform.controls[this.formLocatie].setValue(data.Locatie),
-          this.Trainingform.controls[this.formHoeveelheid].setValue(data.Hoeveelheid),
-          this.Trainingform.controls[this.formActiviteitId].setValue(data.ActiviteitId)
-        ));
-    }
-    this.Activiteiten = this.activiteitService.getactiviteits()
+          this.Trainingform.controls[this.formLocatie].setValue(data.locatie),
+          this.Trainingform.controls[this.formHoeveelheid].setValue(data.hoeveelheid.toString()),
+          this.Trainingform.controls[this.formActiviteitId].setValue(data.activiteitId.toString())
+        )); }
   }
 
   save() {
     if (!this.Trainingform.valid) {
-      return;
+      return ;
+    }
+    if (this.actionType.toString() =='Add') {
+      let training: Training = {
+        naam: this.Naam.value,
+        locatie: this.Locatie.value,
+        hoeveelheid: this.Hoeveelheid.value,
+        activiteitId: this.ActiviteitId.value,
+      };
+      this.trainingService.savetraining(training);
+      this.router.navigate(['/trainingen']);
     }
 
-    if (this.actionType === 'Add') {
+    if (this.actionType == 'Edit') {
       let training: Training = {
-        naam: this.Trainingform.get(this.formNaam).value,
-        Locatie: this.Trainingform.get(this.formLocatie).value,
-        Hoeveelheid: this.Trainingform.get(this.formHoeveelheid.toString()).value,
-        ActiviteitId:this.Trainingform.get(this.formActiviteitId.toString()).value,
-      };
+        naam: this.Naam.value,
+        locatie: this.Locatie.value,
+        hoeveelheid: this.Hoeveelheid.value,
+        activiteitId: this.ActiviteitId.value
 
-      this.trainingService.savetraining(training)
-        .subscribe((data) => {
-          this.router.navigate(['/trainingen']);
-        });
-    }
-
-    if (this.actionType === 'Edit') {
-      let training: Training = {
-        id: this.existingTraining.id,
-        naam: this.existingTraining.naam,
-        Locatie: this.existingTraining.Locatie,
-        Hoeveelheid: this.Trainingform.get(this.formHoeveelheid.toString()).value,
-        ActiviteitId: this.existingTraining.ActiviteitId,
       };
-      this.trainingService.updatetraining(training.id, training)
-        .subscribe((data) => {
-          this.router.navigate([this.router.url]);
-        });
+      this.trainingService.updatetraining(this.id, training);
+      this.router.navigate(['/trainingen']);
     }
   }
 

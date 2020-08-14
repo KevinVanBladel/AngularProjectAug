@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { retry, catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Training } from '../models/training';
+import { Gebruiker } from '../models/gebruiker';
 
 @Injectable({
   providedIn: 'root'
 })
 export class trainingService {
-
   myAppUrl: string;
   myApiUrl: string;
   httpOptions = {
@@ -22,6 +22,7 @@ export class trainingService {
       this.myAppUrl = 'http://localhost:5000'; //port waarop api draait
       this.myApiUrl = '/api/training/' ;
   }
+
   
   gettrainings(): Observable<Training[]> {
     return this.http.get<Training[]>(this.myAppUrl + this.myApiUrl, this.httpOptions)
@@ -39,24 +40,19 @@ export class trainingService {
       );
   }
 
-  savetraining(training): Observable<Training> {
+  savetraining(training) {
       return this.http.post<Training>(this.myAppUrl + this.myApiUrl, JSON.stringify(training), this.httpOptions)
-      .pipe(
-        retry(1),
-        catchError(this.errorHandler)
-      );
+      .subscribe((data) =>{});
   }
 
-  updatetraining(id: number, training): Observable<Training> {
+  updatetraining(id: number, training){
       return this.http.put<Training>(this.myAppUrl + this.myApiUrl + id, JSON.stringify(training), this.httpOptions)
-      .pipe(
-        retry(1),
-        catchError(this.errorHandler)
-      );
+      .subscribe((data) => {
+      });;
   }
 
   deletetraining(id: number): Observable<Training> {
-      return this.http.delete<Training>(this.myAppUrl + this.myApiUrl + id)
+      return this.http.delete<Training>(this.myAppUrl + this.myApiUrl + id, this.httpOptions)
       .pipe(
         retry(1),
         catchError(this.errorHandler)

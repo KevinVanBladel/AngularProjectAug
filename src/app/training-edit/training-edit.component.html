@@ -1,31 +1,43 @@
 <h1>{{actionType}} Training</h1>
-<form [formGroup]="Trainingform" (ngSubmit)="save()" #formDir="ngForm" novalidate>
+<form [formGroup]="Trainingform" (ngSubmit)="save()" #frm="ngForm" novalidate>
   <div class="form-group row">
     <label class=" control-label col-md-12 " for="Naam">Naam</label>
     <div class="col-md-12">
-      <input class="form-control" type="text" formControlName="Naam" required>
+      <input class="form-control" type="text" [formControl]="Naam" required>
     </div>
+    <span class="text-danger ml-3" *ngIf="Naam.invalid && frm.submitted">
+      Naam is required.
+    </span>
   </div>
   <div class="form-group row">
     <label class="control-label col-md-12" for="Locatie">Locatie</label>
     <div class="col-md-12">
-        <input class="form-control" type="text" formControlName="Locatie">
+        <input class="form-control" type="text" [formControl]="Locatie" required>
     </div>
+    <span class="text-danger ml-3" *ngIf="Locatie.invalid && frm.submitted">
+      Locatie is required.
+    </span>
   </div>
   <div class="form-group row">
     <label class="control-label col-md-12" for="Hoeveelheid">Hoeveelheid</label>
     <div class="col-md-12">
-        <input class="form-control" type="text" formControlName="Hoeveelheid" required>
+        <input class="form-control" type="text" [formControl]="Hoeveelheid" required>
     </div>
+    <span class="text-danger ml-3" *ngIf="Hoeveelheid.invalid && frm.submitted">
+      Hoeveelheid is required.
+    </span>
   </div>
   <div class="form-group row">
     <label class="control-label col-md-12" for="ActiviteitId">Activiteit</label>
-    <select class="col-md-12" ng-repeat="act in Activiteiten" value="{{act.id}}" required>
-              {{ act.id }}
-    </select>
+    <div class="col-md-12">
+      <input class="form-control" type="text" [formControl]="ActiviteitId" required>
+    </div>
+    <span class="text-danger ml-3" *ngIf="ActiviteitId.invalid && frm.submitted">
+     ActiviteitId is required.
+    </span>
   </div>
   <div class="form-group">
-    <button type="submit" class="btn btn-success float-right" [disabled]="!Trainingform.valid" >Opslaan</button>
+    <button type="submit" class="btn btn-success float-right">Opslaan</button>
     <button class="btn btn-secondary float-left" (click)="cancel()">Cancel</button>
   </div>
 </form>

@@ -16,6 +16,7 @@ export class gebruikerService {
   private currentUserSubject: BehaviorSubject<Gebruiker>;
   public currentUser: Observable<Gebruiker>;
   private logincheck: string;
+  private nieuweGebruiker: Gebruiker;
   myAppUrl: string;
   myApiUrl: string;
   
@@ -30,7 +31,10 @@ export class gebruikerService {
     return this.currentUserSubject.value;
   }
 
-  login(username, password) {
+  FindFirst(id){
+    return this.http.post<Gebruiker>(this.myAppUrl+this.myApiUrl + "FindFirst", {id : id})
+  }
+  login(username: string, password: string) {
     return this.http.post<Gebruiker>(this.myAppUrl+this.myApiUrl+"login", { UserName : username, Password : password })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -38,6 +42,11 @@ export class gebruikerService {
                 this.currentUserSubject.next(user);
                 return user;
             }));
+  }
+  register(UserName, Password, Voornaam, Achternaam){
+   return this.http.post<Gebruiker>(this.myAppUrl+this.myApiUrl+"register", { UserName : UserName, Password : Password, Voornaam : Voornaam, Achternaam : Achternaam})
+   .subscribe((data) => {
+   });
   }
  isLoggedIn() {
    this.logincheck = localStorage.getItem("currentUser");
