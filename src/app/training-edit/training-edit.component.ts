@@ -4,7 +4,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { trainingService } from '../services/training.service';
 import { Training } from '../models/training';
 import { Gebruiker } from '../models/gebruiker';
-import { gebruikerService} from '../services/gebruiker.service';
+import { activiteitService } from '../services/activiteit.service';
+import { Observable } from 'rxjs';
+import { Activiteit } from '../models/activiteit';
 
 @Component({
   selector: 'app-training-edit',
@@ -18,14 +20,15 @@ export class TrainingEditComponent implements OnInit {
   formLocatie: string;
   formHoeveelheid: string;
   formActiviteitId: string;
+  activiteiten$: Observable<Activiteit[]>;
   gebruiker = Gebruiker;
   id: number;
   errorMessage: any;
   existingTraining: Training;
 
-  constructor(private trainingService: trainingService, private gebruikerService: gebruikerService, private formBuilder: FormBuilder, private avRoute: ActivatedRoute, private router: Router) {
+  constructor(private trainingService: trainingService, private activiteitService: activiteitService, private formBuilder: FormBuilder, private avRoute: ActivatedRoute, private router: Router) {
     const idParam = 'id';
-    this.actionType ='Add';
+    this.actionType ='toevoegen';
     this.formNaam ='Naam';
     this.formLocatie = 'Locatie';
     this.formHoeveelheid = 'Hoeveelheid';
@@ -46,7 +49,7 @@ export class TrainingEditComponent implements OnInit {
 
   ngOnInit() {
     if (this.id > 0) {
-      this.actionType ='Edit';
+      this.actionType ='aanpassen';
       this.trainingService.gettraining(this.id)
         .subscribe(data => (
           this.existingTraining = data,
@@ -55,13 +58,14 @@ export class TrainingEditComponent implements OnInit {
           this.Trainingform.controls[this.formHoeveelheid].setValue(data.hoeveelheid.toString()),
           this.Trainingform.controls[this.formActiviteitId].setValue(data.activiteitId.toString())
         )); }
+        this.activiteiten$ = this.activiteitService.getactiviteits();
   }
 
   save() {
     if (!this.Trainingform.valid) {
       return ;
     }
-    if (this.actionType.toString() =='Add') {
+    if (this.actionType.toString() =='toevoegen') {
       let training: Training = {
         naam: this.Naam.value,
         locatie: this.Locatie.value,
@@ -72,7 +76,7 @@ export class TrainingEditComponent implements OnInit {
       this.router.navigate(['/trainingen']);
     }
 
-    if (this.actionType == 'Edit') {
+    if (this.actionType == 'aanpassen') {
       let training: Training = {
         naam: this.Naam.value,
         locatie: this.Locatie.value,

@@ -4,7 +4,6 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { retry, catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Training } from '../models/training';
-import { Gebruiker } from '../models/gebruiker';
 
 @Injectable({
   providedIn: 'root'

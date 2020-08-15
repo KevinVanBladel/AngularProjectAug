@@ -1,1 +1,6 @@
-<p>account works!</p>
+<h2>Accountgegevens van {{gebruiker.userName}}</h2>
+<p>Voornaam: {{gebruiker.voornaam}}</p>
+<p>Achternaam: {{gebruiker.achternaam}}</p>
+<p>Gebruikernaam: {{gebruiker.userName}}</p>
+<p>Passwoord: <span type="password">{{gebruiker.passwordHash}}</span></p>
+<button type="button" (click)="Download()" class="btn btn-info">Download accountgegevens</button>

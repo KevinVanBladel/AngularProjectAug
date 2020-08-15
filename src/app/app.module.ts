@@ -14,11 +14,11 @@ import { AccountComponent } from './account/account.component';
 import { trainingService } from './services/training.service';
 import { activiteitService } from './services/activiteit.service';
 import { gebruikerService } from './services/gebruiker.service';
-import { wedstrijdService } from './services/wedstrijd.service';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
-import { RegisterComponent } from './register/register.component'
+import { RegisterComponent } from './register/register.component';
+import { OverComponent } from './over/over.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +29,8 @@ import { RegisterComponent } from './register/register.component'
     HomeComponent,
     LoginComponent,
     MenuComponent,
-    RegisterComponent
+    RegisterComponent,
+    OverComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +41,6 @@ import { RegisterComponent } from './register/register.component'
   ],
   providers: [
     trainingService,
-    wedstrijdService,
     activiteitService,
     gebruikerService,
     

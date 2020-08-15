@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     this.gebruikerService.login(this.Username.value, this.Password.value).pipe(first())
     .subscribe(
         data => {
-            this.router.navigate([this.returnUrl]);
+            this.router.navigate(["/trainingen"]);
         });;
   }
 }

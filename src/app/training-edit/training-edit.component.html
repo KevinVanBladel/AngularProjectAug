@@ -1,4 +1,4 @@
-<h1>{{actionType}} Training</h1>
+<h1>Training {{actionType}}</h1>
 <form [formGroup]="Trainingform" (ngSubmit)="save()" #frm="ngForm" novalidate>
   <div class="form-group row">
     <label class=" control-label col-md-12 " for="Naam">Naam</label>
@@ -38,6 +38,11 @@
   </div>
   <div class="form-group">
     <button type="submit" class="btn btn-success float-right">Opslaan</button>
-    <button class="btn btn-secondary float-left" (click)="cancel()">Cancel</button>
+    <button class="btn btn-secondary float-left" (click)="cancel()">Terug</button>
   </div>
+  <br/><br/>
+    <h3>Mogelijke activiteiten</h3>
+  <ng-container *ngFor="let activiteit of (activiteiten$ | async)">
+    <p>{{activiteit.id}}: {{ activiteit.naam }}, {{activiteit.eenheid}}</p>
+  </ng-container>
 </form>

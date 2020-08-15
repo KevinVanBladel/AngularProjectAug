@@ -7,7 +7,6 @@
 <table class="table table-sm table-hover" *ngIf="(trainingen$ | async)?.length>0">
   <thead>
     <tr>
-      <th>#</th>
       <th>Naam</th>
       <th>Locatie</th>
       <th>Hoeveelheid</th>
@@ -18,17 +17,16 @@
   </thead>
   <tbody>
     <tr *ngFor="let training of (trainingen$ | async)">
-      <td>{{ training.id }}</td>
       <td>{{ training.naam }}</td>
       <td>{{ training.locatie }}</td>
-      <td>{{ training.hoeveelheid }}</td>
       <ng-container *ngFor="let activiteit of (activiteiten$ | async)">
         <ng-container *ngIf="training.activiteitId === activiteit.id ">
+        <td>{{ training.hoeveelheid }} {{activiteit.eenheid}}</td>
         <td>{{ activiteit.naam }}</td>
         </ng-container>
       </ng-container>
-      <td><a [routerLink]="['/training/edit/', training.id]" class="btn btn-primary btn-sm float-right">Edit</a></td>
-      <td><a [routerLink]="['/trainingen']" (click)="delete(training.id)" class="btn btn-danger btn-sm float-right">Delete</a></td>
+      <td><a [routerLink]="['/training/edit/', training.id]" class="btn btn-primary btn-sm float-right">Pas aan</a></td>
+      <td><a [routerLink]="['/trainingen']" (click)="delete(training.id)" class="btn btn-danger btn-sm float-right">Verwijder</a></td>
     </tr>
   </tbody>
 </table>

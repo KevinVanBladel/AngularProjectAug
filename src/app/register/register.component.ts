@@ -29,8 +29,10 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    this.gebruikerService.register(this.f.Username.value, this.f.Password.value, this.f.Firstname.value, this.f.Lastname.value)
-    this.router.navigate(['/home'])
-    };;
+    if(this.f.Username.value !="" && this.f.Password.value != "" && this.f.Firstname.value !="" && this.f.Lastname.value !=""){
+    this.gebruikerService.register(this.f.Username.value, this.f.Password.value, this.f.Firstname.value, this.f.Lastname.value);
+    this.router.navigate(['/login'])
+  }
+    }
   get f() { return this.Registerform.controls; }
 }

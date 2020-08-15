@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -16,23 +16,30 @@ export class gebruikerService {
   private currentUserSubject: BehaviorSubject<Gebruiker>;
   public currentUser: Observable<Gebruiker>;
   private logincheck: string;
-  private nieuweGebruiker: Gebruiker;
+  user: Gebruiker;
   myAppUrl: string;
   myApiUrl: string;
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + localStorage.getItem("currentUser")
+    })
+  };
   
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<Gebruiker>(JSON.parse(localStorage.getItem(localStorage.key(1))))
+    this.currentUserSubject = new BehaviorSubject<Gebruiker>(null);
     this.currentUser = this.currentUserSubject.asObservable();
     this.myAppUrl = "http://localhost:5000/";
     this.myApiUrl = 'api/gebruiker/';
+    
   }
 
-  public get currentUserValue(): Gebruiker{
-    return this.currentUserSubject.value;
-  }
-
-  FindFirst(id){
-    return this.http.post<Gebruiker>(this.myAppUrl+this.myApiUrl + "FindFirst", {id : id})
+  GetUser(): Observable<Gebruiker>{ 
+    return this.http.get<Gebruiker>(this.myAppUrl+this.myApiUrl, this.httpOptions)
+    .pipe(
+      retry(1),
+      catchError(this.errorHandler)
+    )
   }
   login(username: string, password: string) {
     return this.http.post<Gebruiker>(this.myAppUrl+this.myApiUrl+"login", { UserName : username, Password : password })
